@@ -6,6 +6,8 @@ use serde::{Deserialize, Serialize};
 use std::path::Path;
 use tokio::fs;
 
+use crate::storage::StorageConfig;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     #[serde(default = "default_base_app_url")]
@@ -60,21 +62,6 @@ pub struct WebServerConfig {
     pub http_bind_address: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct StorageConfig {
-    #[serde(default = "default_storage_engine")]
-    pub engine: String,
-    
-    #[serde(default)]
-    pub filesystem: FilesystemStorageConfig,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct FilesystemStorageConfig {
-    #[serde(default = "default_base_dir")]
-    pub base_dir: String,
-}
-
 // Default value functions
 fn default_base_app_url() -> String {
     "http://localhost:3012".to_string()
@@ -120,36 +107,11 @@ fn default_job_startup_grace() -> u64 {
     10
 }
 
-fn default_storage_engine() -> String {
-    "Filesystem".to_string()
-}
-
-fn default_base_dir() -> String {
-    "data".to_string()
-}
-
 impl Default for WebServerConfig {
     fn default() -> Self {
         Self {
             http_port: default_http_port(),
             http_bind_address: default_http_bind_address(),
-        }
-    }
-}
-
-impl Default for FilesystemStorageConfig {
-    fn default() -> Self {
-        Self {
-            base_dir: default_base_dir(),
-        }
-    }
-}
-
-impl Default for StorageConfig {
-    fn default() -> Self {
-        Self {
-            engine: default_storage_engine(),
-            filesystem: FilesystemStorageConfig::default(),
         }
     }
 }

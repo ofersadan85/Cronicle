@@ -12,6 +12,7 @@ keywords = ["cron", "scheduler", "task", "distributed"]
 [dependencies]
 # Async runtime
 tokio = { version = "1.40", features = ["full"] }
+async-trait = "0.1"
 
 # Web framework
 axum = "0.7"
@@ -51,3 +52,4 @@ reqwest = { version = "0.12", features = ["json"] }
 [dev-dependencies]
 # Testing
 mockall = "0.13"
+tempfile = "3.15"

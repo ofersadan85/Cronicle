@@ -25,7 +25,7 @@ impl Server {
     /// Create a new Server instance
     pub async fn new(config: Config) -> Result<Self> {
         let config = Arc::new(config);
-        let engine = Arc::new(Engine::new(config.clone()));
+        let engine = Arc::new(Engine::new(config.clone()).await?);
         
         // Start the engine
         engine.start().await?;

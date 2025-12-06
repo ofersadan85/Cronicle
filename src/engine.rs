@@ -7,10 +7,12 @@ use std::sync::Arc;
 use tokio::sync::RwLock;
 
 use crate::config::Config;
+use crate::storage::Storage;
 
 /// The main Cronicle engine
 pub struct Engine {
     config: Arc<Config>,
+    storage: Arc<Box<dyn Storage>>,
     active_jobs: Arc<RwLock<HashMap<String, Job>>>,
     state: Arc<RwLock<EngineState>>,
 }
@@ -34,15 +36,19 @@ pub struct Job {
 
 impl Engine {
     /// Create a new Engine instance
-    pub fn new(config: Arc<Config>) -> Self {
-        Self {
+    pub async fn new(config: Arc<Config>) -> Result<Self> {
+        // Create storage backend
+        let storage = crate::storage::create_storage(&config.storage).await?;
+        
+        Ok(Self {
             config,
+            storage: Arc::new(storage),
             active_jobs: Arc::new(RwLock::new(HashMap::new())),
             state: Arc::new(RwLock::new(EngineState {
                 enabled: true,
                 is_primary: false,
             })),
-        }
+        })
     }
 
     /// Start the engine
@@ -95,7 +101,7 @@ mod tests {
     #[tokio::test]
     async fn test_engine_creation() {
         let config = Arc::new(Config::default());
-        let engine = Engine::new(config);
+        let engine = Engine::new(config).await.unwrap();
         assert_eq!(engine.active_job_count().await, 0);
         assert!(engine.is_enabled().await);
     }

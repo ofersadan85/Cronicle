@@ -10,6 +10,7 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 mod config;
 mod engine;
 mod server;
+mod storage;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const APP_NAME: &str = "Cronicle";

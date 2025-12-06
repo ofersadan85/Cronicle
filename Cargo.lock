@@ -333,6 +333,7 @@ name = "cronicle"
 version = "0.9.101"
 dependencies = [
  "anyhow",
+ "async-trait",
  "axum",
  "bcrypt",
  "chrono",
@@ -343,6 +344,7 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "tempfile",
  "thiserror",
  "tokio",
  "tower",
