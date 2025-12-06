@@ -2,6 +2,8 @@
 
 **Cronicle** is a multi-server task scheduler and runner, with a web based front-end UI.  It handles both scheduled, repeating and on-demand jobs, targeting any number of worker servers, with real-time stats and live log viewer.  It's basically a fancy [Cron](https://en.wikipedia.org/wiki/Cron) replacement written in [Node.js](https://nodejs.org/).  You can give it simple shell commands, or write Plugins in virtually any language.
 
+> **🦀 Rust Implementation Available**: A Rust port of Cronicle is now in development! See [RUST_README.md](RUST_README.md) for details on the high-performance Rust implementation. The Rust version is currently in early stages with basic server functionality implemented.
+
 ![Main Screenshot](https://pixlcore.com/software/cronicle/screenshots-new/job-details-complete.png)
 
 ## Features at a Glance
