@@ -138,7 +138,10 @@ impl Storage for FilesystemStorage {
         let prefix_path = if prefix.is_empty() {
             self.base_path.clone()
         } else {
-            self.key_to_path(prefix).parent().unwrap().to_path_buf()
+            let key_path = self.key_to_path(prefix);
+            key_path.parent()
+                .ok_or_else(|| anyhow::anyhow!("Invalid prefix path"))?
+                .to_path_buf()
         };
         
         if !prefix_path.exists() {

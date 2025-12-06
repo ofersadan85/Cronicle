@@ -88,8 +88,8 @@ Key Rust dependencies:
 ## Development Roadmap
 
 1. ✅ Phase 1: Basic server infrastructure (COMPLETE)
-2. 🚧 Phase 2: Storage abstraction layer
-3. ⏳ Phase 3: Scheduler implementation
+2. ✅ Phase 2: Storage abstraction layer (COMPLETE)
+3. ⏳ Phase 3: Scheduler implementation (IN PROGRESS)
 4. ⏳ Phase 4: Job execution system
 5. ⏳ Phase 5: API implementation
 6. ⏳ Phase 6: Multi-server clustering
