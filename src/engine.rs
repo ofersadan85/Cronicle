@@ -9,12 +9,14 @@ use tokio::sync::RwLock;
 use crate::config::Config;
 use crate::storage::Storage;
 use crate::scheduler::Scheduler;
+use crate::job::JobManager;
 
 /// The main Cronicle engine
 pub struct Engine {
     config: Arc<Config>,
     storage: Arc<Box<dyn Storage>>,
     scheduler: Arc<Scheduler>,
+    job_manager: Arc<JobManager>,
     active_jobs: Arc<RwLock<HashMap<String, Job>>>,
     state: Arc<RwLock<EngineState>>,
 }
@@ -47,10 +49,14 @@ impl Engine {
         // TODO: Add timezone detection or make it configurable
         let scheduler = Scheduler::new(Arc::clone(&storage), "UTC")?;
         
+        // Create job manager
+        let job_manager = JobManager::new(Arc::clone(&storage));
+        
         Ok(Self {
             config,
             storage,
             scheduler: Arc::new(scheduler),
+            job_manager: Arc::new(job_manager),
             active_jobs: Arc::new(RwLock::new(HashMap::new())),
             state: Arc::new(RwLock::new(EngineState {
                 enabled: true,
@@ -97,7 +103,7 @@ impl Engine {
 
     /// Get the number of active jobs
     pub async fn active_job_count(&self) -> usize {
-        self.active_jobs.read().await.len()
+        self.job_manager.active_job_count().await
     }
 
     /// Check if the engine is enabled
