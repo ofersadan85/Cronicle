@@ -12,22 +12,24 @@ This is an **initial implementation** providing the foundational structure for a
 - **Configuration System**: JSON-based configuration loading compatible with original config.json format
 - **Basic Web Server**: HTTP server using Axum framework
 - **Engine Core**: Basic engine initialization and directory setup
+- **Storage Abstraction**: Generic trait for multiple backends (filesystem implemented)
+- **Scheduler**: Cron-like event scheduling with timezone support
+- **Job Management**: Job lifecycle tracking (launch, complete, abort)
 - **Health Check API**: `/health` endpoint for server status
 - **Status API**: `/api/app/status` endpoint showing active jobs and server state
-- **Tests**: Unit tests for core components
+- **Tests**: 19 comprehensive unit tests
 
 ### 🚧 In Progress / Not Yet Implemented
 
 The following major components from the original Node.js implementation need to be ported:
 
-- **Scheduler**: Event scheduling and cron-like functionality
-- **Job Execution**: Plugin system and job runner
+- **Full API Endpoints**: Complete REST API implementation (in progress)
+- **Process Execution**: Plugin system and actual job runner
 - **Multi-Server Clustering**: Server discovery, failover, and synchronization
-- **Storage Backends**: Filesystem, Couchbase, and S3 storage implementations
-- **User Authentication**: User management and bcrypt password hashing
-- **API Endpoints**: Full REST API implementation
+- **User Authentication**: Full user management and bcrypt password hashing
 - **WebSocket Support**: Real-time updates for the web UI
 - **Email Notifications**: SMTP-based notification system
+- **Web Hooks**: External notification webhooks
 - **Web UI**: Frontend assets (currently unchanged from Node.js version)
 - **Migration Tools**: Tools to migrate data from Node.js to Rust version
 

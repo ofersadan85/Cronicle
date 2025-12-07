@@ -181,7 +181,7 @@ mod tests {
 
     #[test]
     fn test_weekday_timing() {
-        // Monday through Friday
+        // Monday through Friday (1=Monday through 5=Friday)
         let timing = Timing {
             years: None,
             months: None,
@@ -191,14 +191,14 @@ mod tests {
             minutes: None,
         };
         
-        // Monday (2024-01-01 is a Monday)
+        // Monday, 2024-01-01 is a Monday
         let dt = NaiveDate::from_ymd_opt(2024, 1, 1)
             .unwrap()
             .and_time(NaiveTime::from_hms_opt(12, 0, 0).unwrap())
             .and_utc();
         assert!(check_timing(&timing, &dt));
         
-        // Sunday (2023-12-31 is a Sunday)
+        // Sunday, 2023-12-31 is a Sunday
         let dt = NaiveDate::from_ymd_opt(2023, 12, 31)
             .unwrap()
             .and_time(NaiveTime::from_hms_opt(12, 0, 0).unwrap())

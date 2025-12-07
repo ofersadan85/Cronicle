@@ -2,7 +2,6 @@
 // Core scheduling and job management logic
 
 use anyhow::Result;
-use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
@@ -17,7 +16,6 @@ pub struct Engine {
     storage: Arc<Box<dyn Storage>>,
     scheduler: Arc<Scheduler>,
     job_manager: Arc<JobManager>,
-    active_jobs: Arc<RwLock<HashMap<String, Job>>>,
     state: Arc<RwLock<EngineState>>,
 }
 
@@ -27,15 +25,6 @@ pub struct Engine {
 pub struct EngineState {
     pub enabled: bool,
     pub is_primary: bool,
-}
-
-/// Represents a running job
-#[derive(Debug, Clone)]
-#[allow(dead_code)]
-pub struct Job {
-    pub id: String,
-    pub event_id: String,
-    pub started_at: chrono::DateTime<chrono::Utc>,
 }
 
 impl Engine {
@@ -57,7 +46,6 @@ impl Engine {
             storage,
             scheduler: Arc::new(scheduler),
             job_manager: Arc::new(job_manager),
-            active_jobs: Arc::new(RwLock::new(HashMap::new())),
             state: Arc::new(RwLock::new(EngineState {
                 enabled: true,
                 is_primary: false,
