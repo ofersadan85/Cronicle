@@ -8,11 +8,13 @@ use tokio::sync::RwLock;
 
 use crate::config::Config;
 use crate::storage::Storage;
+use crate::scheduler::Scheduler;
 
 /// The main Cronicle engine
 pub struct Engine {
     config: Arc<Config>,
     storage: Arc<Box<dyn Storage>>,
+    scheduler: Arc<Scheduler>,
     active_jobs: Arc<RwLock<HashMap<String, Job>>>,
     state: Arc<RwLock<EngineState>>,
 }
@@ -39,10 +41,16 @@ impl Engine {
     pub async fn new(config: Arc<Config>) -> Result<Self> {
         // Create storage backend
         let storage = crate::storage::create_storage(&config.storage).await?;
+        let storage = Arc::new(storage);
+        
+        // Create scheduler with UTC timezone
+        // TODO: Add timezone detection or make it configurable
+        let scheduler = Scheduler::new(Arc::clone(&storage), "UTC")?;
         
         Ok(Self {
             config,
-            storage: Arc::new(storage),
+            storage,
+            scheduler: Arc::new(scheduler),
             active_jobs: Arc::new(RwLock::new(HashMap::new())),
             state: Arc::new(RwLock::new(EngineState {
                 enabled: true,
@@ -61,6 +69,10 @@ impl Engine {
         // Initialize state
         let mut state = self.state.write().await;
         state.enabled = true;
+        drop(state); // Release lock before starting scheduler
+        
+        // Setup and start scheduler
+        self.scheduler.setup(self.config.scheduler_startup_grace).await?;
         
         tracing::info!("Cronicle engine startup complete");
         

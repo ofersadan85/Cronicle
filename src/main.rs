@@ -11,6 +11,7 @@ mod config;
 mod engine;
 mod server;
 mod storage;
+mod scheduler;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const APP_NAME: &str = "Cronicle";
