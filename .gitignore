@@ -1,0 +1,19 @@
+# Rust build artifacts
+/target
+
+# Logs and data directories
+logs/
+data/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Node.js (original implementation)
+node_modules/
+

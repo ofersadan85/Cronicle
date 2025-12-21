@@ -1,0 +1,55 @@
+[package]
+name = "cronicle"
+version = "0.9.101"
+edition = "2021"
+authors = ["Joseph Huckaby <jhuckaby@gmail.com>", "Rust Port Contributors"]
+description = "A simple, distributed task scheduler and runner with a web based UI."
+license = "MIT"
+homepage = "https://github.com/jhuckaby/Cronicle"
+repository = "https://github.com/jhuckaby/Cronicle"
+keywords = ["cron", "scheduler", "task", "distributed"]
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.40", features = ["full"] }
+async-trait = "0.1"
+
+# Web framework
+axum = "0.7"
+tower = "0.5"
+tower-http = { version = "0.6", features = ["fs", "trace"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Configuration
+config = "0.14"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "2.0"
+
+# Utilities
+uuid = { version = "1.11", features = ["v4", "serde"] }
+bcrypt = "0.16"
+regex = "1.11"
+
+# HTTP client for webhooks
+reqwest = { version = "0.12", features = ["json"] }
+
+# Storage backends
+# Note: Additional storage backends (S3, Couchbase) can be added as needed
+
+[dev-dependencies]
+# Testing
+mockall = "0.13"
+tempfile = "3.15"
